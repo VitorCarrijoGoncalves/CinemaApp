@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Cinema</string>
+
+    <string-array name="Tela_de_seções">
+        <item>Ação</item>
+        <item>Aventura</item>
+        <item>Terror</item>
+        <item>Romântico</item>
+    </string-array>
+
+    <string-array name="numeros">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="edtCadSexo">
+        <item>MASCULINO</item>
+        <item>FEMININO</item>
+    </string-array>
+
+    <string-array name="edtCadEstadoCivil">
+        <item>SOLTEIRO</item>
+        <item>CASADO</item>
+        <item>VIÚVO</item>
+        <item>DIVORCIADO</item>
+    </string-array>
+
+
+</resources>

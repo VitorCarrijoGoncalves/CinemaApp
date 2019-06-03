@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_gravity="center"
+    tools:context=".activities.SessaoActivity">
+
+    <Space
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="SESSÕES DISPONÍVEIS"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <Space
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+
+
+    <LinearLayout
+        android:id="@+id/segundo_layout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal" >
+
+        <Space
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filme"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="55dp" />
+
+        <Spinner
+            android:id="@+id/Lançamentos"
+            android:layout_width="66dp"
+            android:layout_height="32dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="84dp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gênero"
+            tools:layout_editor_absoluteX="169dp"
+            tools:layout_editor_absoluteY="55dp" />
+
+        <Spinner
+            android:id="@+id/Lançamento"
+            android:layout_width="66dp"
+            android:layout_height="32dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="84dp" />
+
+        <!--<TextView-->
+            <!--android:id="@+id/textView4"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Horário"-->
+            <!--tools:layout_editor_absoluteX="292dp"-->
+            <!--tools:layout_editor_absoluteY="54dp" />-->
+
+        <!--<Spinner-->
+            <!--android:id="@+id/Aventura"-->
+            <!--android:layout_width="66dp"-->
+            <!--android:layout_height="32dp"-->
+            <!--tools:layout_editor_absoluteX="8dp"-->
+            <!--tools:layout_editor_absoluteY="84dp"/>-->
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+
+    <ListView
+        android:id="@+id/listViewSecoes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#000"
+        android:dividerHeight="2dp"
+        android:listSelector="#600" />
+
+</LinearLayout>

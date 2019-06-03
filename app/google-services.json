@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "475879629198",
+    "firebase_url": "https://cinemaapp-71698.firebaseio.com",
+    "project_id": "cinemaapp-71698",
+    "storage_bucket": "cinemaapp-71698.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475879629198:android:25986d88ad58724d",
+        "android_client_info": {
+          "package_name": "senai.mobile.com.br.cinema"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "475879629198-5emd42jppsfguoeqr50ndmp4d7kdgn81.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "senai.mobile.com.br.cinema",
+            "certificate_hash": "05815c1caf121f3e03ef4f46317de40f293c563a"
+          }
+        },
+        {
+          "client_id": "475879629198-0kk4fooi82ao2bmit859k8mgjvrilp5q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9ncFGYK5MudmtcA4EQx3ED28Clwq6K4Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "475879629198-0kk4fooi82ao2bmit859k8mgjvrilp5q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
