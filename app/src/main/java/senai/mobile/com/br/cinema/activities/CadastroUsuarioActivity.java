@@ -1,44 +1,38 @@
 package senai.mobile.com.br.cinema.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import senai.mobile.com.br.cinema.DAO.ConfiguracaoFirebase;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import senai.mobile.com.br.cinema.R;
 import senai.mobile.com.br.cinema.model.Usuario;
+import senai.mobile.com.br.cinema.retrofit.RetrofitConfig;
 
-public class CadastroUsuarioActivity extends AppCompatActivity {
+public class CadastroUsuarioActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private EditText nome;
     private EditText email;
     private EditText senha1;
     private EditText senha2;
-    private EditText sexo;
-    private EditText estadoCivil;
+    private EditText idade;
+    private Spinner sexo;
+    private Spinner estadoCivil;
     private Button btnCadastrar;
     private Button btnCancelar;
-    private FirebaseAuth autenticacao;
-    private FirebaseDatabase database;
-    private DatabaseReference reference;
     private Usuario usuario;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +42,21 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
         email = findViewById(R.id.edtCadEmail);
         senha1 = findViewById(R.id.edtCadSenha1);
         senha2 = findViewById(R.id.edtCadSenha2);
-        //sexo = findViewById(R.id.edtCadSexo);
-        btnCadastrar = (Button) findViewById(R.id.btnCadastrar);
-        btnCancelar = (Button) findViewById(R.id.btnCancelar);
+        idade = findViewById(R.id.edtCadIdade);
+        sexo = findViewById(R.id.spinnerSexo);
+        estadoCivil = findViewById(R.id.spinnerEstadoCivil);
+        btnCadastrar = findViewById(R.id.btnCadastrar);
+        btnCancelar = findViewById(R.id.btnCancelar);
+
+        ArrayAdapter<CharSequence> adapterSexo = ArrayAdapter.createFromResource(this, R.array.sexo, android.R.layout.simple_spinner_item);
+        adapterSexo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sexo.setAdapter(adapterSexo);
+        sexo.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
+
+        ArrayAdapter<CharSequence> adapterEC = ArrayAdapter.createFromResource(this, R.array.estadoCivil, android.R.layout.simple_spinner_item);
+        adapterEC.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        estadoCivil.setAdapter(adapterEC);
+        estadoCivil.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
 
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,11 +68,12 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
                     usuario.setNome(nome.getText().toString());
                     usuario.setEmail(email.getText().toString());
                     usuario.setSenha(senha1.getText().toString());
-                    //usuario.setSexo();
-
+                    usuario.setIdade(idade.getText().toString());
+                    usuario.setSexo(sexo.getSelectedItem().toString());
+                    usuario.setEstadoCivil(estadoCivil.getSelectedItem().toString());
 
                     // chamada de método para cadastro de Usuários
-                    cadastrarUsuario();
+                    cadastrarUsuario(usuario);
 
                 } else {
                     Toast.makeText(CadastroUsuarioActivity.this, "As senhas não se correspondem", Toast.LENGTH_LONG).show();
@@ -84,70 +91,63 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
 
     }
 
-    private void cadastrarUsuario() {
+    private void fazerLogin() {
 
-        autenticacao = ConfiguracaoFirebase.getFirebaseAuth();
-        autenticacao.createUserWithEmailAndPassword(usuario.getEmail(), usuario.getSenha()).addOnCompleteListener(CadastroUsuarioActivity.this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-
-                if (task.isSuccessful()) {
-
-                    insereUsuario(usuario);
-
-                } else {
-
-                    String erroExcecao = "";
-
-                    try {
-
-                        throw task.getException();
-
-                    } catch (FirebaseAuthWeakPasswordException e) {
-
-                        erroExcecao = "Digite uma senha mais forte contendo no mínimo 8 caracteres, letras e números";
-
-                    } catch (FirebaseAuthInvalidCredentialsException e) {
-
-                        erroExcecao = "O e-mail digitado é inválido, digite um novo e-mail";
-
-                    } catch (FirebaseAuthUserCollisionException e) {
-
-                        erroExcecao = "Este e-mail já está cadastrado";
-
-                    } catch (Exception e) {
-
-                        erroExcecao = "Erro ao efetuar o cadastro";
-                        e.printStackTrace();
-
-                    }
-
-                    Toast.makeText(CadastroUsuarioActivity.this, "Erro: " + erroExcecao, Toast.LENGTH_LONG).show();
-
-                }
-
-            }
-        });
+        Intent intent = new Intent(CadastroUsuarioActivity.this, LoginActivity.class);
+        startActivity(intent);
 
     }
 
-    private boolean insereUsuario(Usuario usuario) {
+    public void cadastrarUsuario(Usuario usuario) {
 
-        try {
+        if (validarUsuario(usuario)) {
 
-            reference = ConfiguracaoFirebase.getFirebase().child("usuarios");
-            reference.push().setValue(usuario);
-            Toast.makeText(CadastroUsuarioActivity.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG).show();
-            return true;
+            Call<Usuario> call = new RetrofitConfig().getUsuarioService().postCadastroDeUsuario(usuario);
+            call.enqueue(new Callback<Usuario>() {
+                @Override
+                public void onResponse(Call<Usuario> call, Response<Usuario> response) {
 
-        } catch (Exception e) {
+                    if(response.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "Usuário Cadastrado com sucesso", Toast.LENGTH_LONG).show();
+                        fazerLogin();
+                    }
 
-            Toast.makeText(CadastroUsuarioActivity.this, "Erro ao gravar o usuário!", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-            return false;
+                }
+
+                @Override
+                public void onFailure(Call<Usuario> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Erro ao cadastrar", Toast.LENGTH_LONG).show();
+                }
+
+            });
 
         }
 
     }
 
+    private boolean validarUsuario(Usuario usuario) {
+
+        if (usuario.getNome().trim().equals("") ||
+                usuario.getEmail().trim().equals("") ||
+        usuario.getIdade().trim().equals("") ||
+        usuario.getSexo().trim().equals("") ||
+        usuario.getEstadoCivil().trim().equals("")) {
+            Toast.makeText(getApplicationContext(), "Todos os campos devem ser preenchidos", Toast.LENGTH_LONG).show();
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String text = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

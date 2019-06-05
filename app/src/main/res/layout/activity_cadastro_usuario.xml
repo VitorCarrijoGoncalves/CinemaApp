@@ -27,10 +27,17 @@
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/edtCadEmail"
+    android:id="@+id/edtCadEmail"
+    android:layout_width="match_parent"
+    android:hint="E-mail"
+    android:inputType="textEmailAddress"
+    android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/edtCadIdade"
         android:layout_width="match_parent"
-        android:hint="E-mail"
-        android:inputType="textEmailAddress"
+        android:hint="Idade"
+        android:inputType="textPersonName"
         android:layout_height="wrap_content" />
 
     <EditText
@@ -48,12 +55,12 @@
         android:layout_height="wrap_content" />
 
     <Spinner
-        android:id="@+id/edtCadSexo"
+        android:id="@+id/spinnerSexo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Spinner
-        android:id="@+id/edtCadEstadoCivil"
+        android:id="@+id/spinnerEstadoCivil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

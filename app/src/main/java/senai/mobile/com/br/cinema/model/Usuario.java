@@ -12,6 +12,8 @@ public class Usuario {
 
     private String email;
 
+    private String idade;
+
     private String sexo;
 
     private String estadoCivil;
@@ -50,6 +52,14 @@ public class Usuario {
         this.email = email;
     }
 
+    public String getIdade() {
+        return idade;
+    }
+
+    public void setIdade(String idade) {
+        this.idade = idade;
+    }
+
     public String getSexo() {
         return sexo;
     }
@@ -81,6 +91,7 @@ public class Usuario {
                 ", senha='" + senha + '\'' +
                 ", nome='" + nome + '\'' +
                 ", email='" + email + '\'' +
+                ", idade='" + idade + '\'' +
                 ", sexo='" + sexo + '\'' +
                 ", estadoCivil='" + estadoCivil + '\'' +
                 ", ingressos=" + ingressos +
